@@ -12,9 +12,9 @@ st.set_page_config(
 # ---------- CUSTOM CSS ----------
 st.markdown("""
 <style>
-/* Gradient background */
+/* Gradient background - soft purple/pink */
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #fceabb, #f8b500);
+    background: linear-gradient(135deg, #d4c1ec, #fbc2eb);
     color: #333;
 }
 
@@ -91,6 +91,4 @@ with st.container():
         st.success(f"Analyzing news from **{platform}** for **{gender}** user... 🔍")
     
     st.markdown('</div>', unsafe_allow_html=True)
-
-
 
