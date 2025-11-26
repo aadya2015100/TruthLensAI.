@@ -1,71 +1,96 @@
 import streamlit as st
+from datetime import datetime
 
-# ---------------- PAGE CONFIGURATION ----------------
+# ---------- PAGE CONFIG ----------
 st.set_page_config(
     page_title="TruthLensAI",
-    page_icon="🔍",
-    layout="centered"
+    page_icon="🕵️‍♂️",
+    layout="centered",
+    initial_sidebar_state="collapsed"
 )
 
-# ---------------- CUSTOM STYLING ----------------
+# ---------- CUSTOM CSS ----------
 st.markdown("""
 <style>
-
-/* Smooth, clean layout */
-.block-container {
-    padding-top: 2rem;
-    max-width: 750px;
+/* Gradient background */
+[data-testid="stAppViewContainer"] {
+    background: linear-gradient(135deg, #fceabb, #f8b500);
+    color: #333;
 }
 
-/* Title styling */
+/* Card-like container */
+.card {
+    background: rgba(255, 255, 255, 0.85);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    max-width: 700px;
+    margin: auto;
+}
+
+/* Headings */
 h1 {
-    text-align: center;
-    font-size: 2.6rem !important;
-    color: #0A3D62;
-    font-weight: 700;
+    font-family: 'Arial', sans-serif;
+    font-size: 3rem;
+    background: linear-gradient(to right, #ff8c94, #a18cd1, #fbc2eb);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-/* Subheading */
 h3 {
-    color: #1B4F72;
-    font-weight: 500;
+    font-family: 'Arial', sans-serif;
+    font-weight: normal;
 }
 
-/* Input fields */
-textarea, input {
-    border-radius: 8px !important;
-    border: 1.8px solid #A9C5E8 !important;
-    font-size: 1rem !important;
-}
-
-/* Button style */
-.stButton button {
-    border-radius: 8px;
-    background-color: #0A3D62;
+/* Buttons */
+.stButton>button {
+    background-color: #a18cd1;
     color: white;
-    font-size: 1.05rem;
-    padding: 0.45rem 1rem;
+    font-weight: bold;
+    padding: 0.5rem 1.5rem;
+    border-radius: 10px;
     border: none;
-    transition: 0.25s ease-in-out;
+    transition: 0.3s;
+}
+.stButton>button:hover {
+    background-color: #ff8c94;
+    transform: scale(1.05);
 }
 
-.stButton button:hover {
-    background-color: #062D49;
+/* Input styling */
+.stRadio > div, .stSelectbox > div {
+    background-color: rgba(255,255,255,0.9);
+    border-radius: 10px;
+    padding: 0.5rem;
 }
-
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------- INTERFACE ----------------
-st.title("🔍 TruthLensAI")
-st.subheader("Fake News Detection Interface")
+# ---------- APP CONTENT ----------
+with st.container():
+    st.markdown('<div class="card">', unsafe_allow_html=True)
 
-st.write("Please enter the news text below for verification:")
+    st.markdown("<h1>Creativity Never Ends</h1>", unsafe_allow_html=True)
+    st.markdown("<h3>Detect fake news and explore insights with TruthLensAI</h3>", unsafe_allow_html=True)
+    
+    st.write("---")
+    
+    # Gender input
+    gender = st.radio("Select your gender:", ["Male", "Female", "Other"])
+    
+    # Platform input
+    platform = st.selectbox("Select the platform where you found the news:", ["Instagram", "YouTube", "Facebook", "Twitter"])
+    
+    st.write("---")
+    
+    # Current date
+    st.markdown(f"**Date:** {datetime.today().strftime('%d %B %Y')}")
+    
+    # Submit button
+    if st.button("Analyze News"):
+        st.success(f"Analyzing news from **{platform}** for **{gender}** user... 🔍")
+    
+    st.markdown('</div>', unsafe_allow_html=True)
 
-user_input = st.text_area("News Content", height=180)
-
-if st.button("Analyze"):
-    st.write("Processing your input...")
-    # Your model logic here
 
 
