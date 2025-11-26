@@ -15,7 +15,7 @@ st.markdown("""
 /* Dark subtle gradient background */
 [data-testid="stAppViewContainer"] {
     background: linear-gradient(135deg, #1e1e2f, #2c2c3c);
-    color: #f0f0f0;
+    color: #ffffff;
 }
 
 /* Card-like container */
@@ -26,6 +26,7 @@ st.markdown("""
     box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     max-width: 700px;
     margin: auto;
+    color: #ffffff;
 }
 
 /* Headings */
@@ -40,7 +41,7 @@ h1 {
 h3 {
     font-family: 'Arial', sans-serif;
     font-weight: normal;
-    color: #f0f0f0;
+    color: #ffffff;
 }
 
 /* Buttons */
@@ -63,7 +64,12 @@ h3 {
     background-color: rgba(60,60,75,0.9);
     border-radius: 10px;
     padding: 0.5rem;
-    color: #f0f0f0;
+    color: #ffffff;
+}
+
+/* Placeholder text color */
+input::placeholder {
+    color: #e0e0e0;
 }
 </style>
 """, unsafe_allow_html=True)
