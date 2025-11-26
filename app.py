@@ -12,18 +12,18 @@ st.set_page_config(
 # ---------- CUSTOM CSS ----------
 st.markdown("""
 <style>
-/* Subtle gradient background */
+/* Dark subtle gradient background */
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #f0e5f9, #fceff9);
-    color: #333;
+    background: linear-gradient(135deg, #1e1e2f, #2c2c3c);
+    color: #f0f0f0;
 }
 
 /* Card-like container */
 .card {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(40, 40, 55, 0.85);
     padding: 2rem;
     border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     max-width: 700px;
     margin: auto;
 }
@@ -40,6 +40,7 @@ h1 {
 h3 {
     font-family: 'Arial', sans-serif;
     font-weight: normal;
+    color: #f0f0f0;
 }
 
 /* Buttons */
@@ -59,9 +60,10 @@ h3 {
 
 /* Input styling */
 .stTextInput > div, .stRadio > div, .stSelectbox > div {
-    background-color: rgba(255,255,255,0.9);
+    background-color: rgba(60,60,75,0.9);
     border-radius: 10px;
     padding: 0.5rem;
+    color: #f0f0f0;
 }
 </style>
 """, unsafe_allow_html=True)
