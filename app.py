@@ -1,133 +1,228 @@
 import streamlit as st
-import time
+from datetime import datetime
+import random
 
-# -------------------- PAGE CONFIG --------------------
-st.set_page_config(page_title="TruthLensAI", layout="wide")
-
-# -------------------- CUSTOM CSS --------------------
-st.markdown(
-    """
-    <style>
-        /* Background gradient */
-        .main {
-            background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
-            color: white;
-        }
-
-        /* Headings */
-        h1, h2, h3, h4, h5 {
-            color: white !important;
-        }
-
-        /* Radio label text white */
-        div[role="radiogroup"] label {
-            color: white !important;
-            font-weight: 500;
-        }
-
-        /* Translucent white box */
-        .translucent-box {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 20px;
-            border-radius: 15px;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.25);
-            margin-top: 20px;
-        }
-
-        /* Navigation buttons */
-        .nav-btn {
-            background: rgba(255,255,255,0.12);
-            color: white !important;
-            padding: 10px 18px;
-            border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.25);
-            text-decoration: none;
-            font-size: 16px;
-        }
-        .nav-btn:hover {
-            background: rgba(255,255,255,0.25);
-        }
-    </style>
-    """,
-    unsafe_allow_html=True
+# ---------- PAGE CONFIG ----------
+st.set_page_config(
+    page_title="TruthLensAI",
+    page_icon="🕵️‍♂️",
+    layout="centered",
+    initial_sidebar_state="collapsed"
 )
 
-# -------------------- SIDEBAR NAV --------------------
-st.sidebar.title("TruthLensAI")
-page = st.sidebar.radio("Navigation", ["Home", "Fake News Detector"])
+# ---------- CUSTOM CSS ----------
+st.markdown("""
+<style>
+/* Background gradient */
+[data-testid="stAppViewContainer"] {
+    background: linear-gradient(135deg, #1e1e2f, #2c2c3c);
+    color: #ffffff;
+}
 
+/* Card container */
+.card {
+    background: rgba(40, 40, 55, 0.85);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    max-width: 700px;
+    margin: auto;
+    color: #ffffff;
+}
 
-# =====================================================
-# ======================= HOME PAGE ===================
-# =====================================================
-if page == "Home":
-    st.title("✨ TruthLensAI")
-    st.subheader("Your companion for spotting misinformation 🔍")
+/* Heading styles */
+h1 {
+    font-family: 'Arial', sans-serif;
+    font-size: 3rem;
+    background: linear-gradient(to right, #ff8c94, #a18cd1, #fbc2eb);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+h3 {
+    font-family: 'Arial', sans-serif;
+    font-weight: normal;
+    color: #ffffff;
+}
 
-    # Top button to go to second screen
-    st.markdown(
-        """
-        <a class="nav-btn" href="?page=Fake+News+Detector">Go to Detector</a>
-        """,
-        unsafe_allow_html=True
-    )
+/* Buttons */
+.stButton>button {
+    background-color: #a18cd1;
+    color: white;
+    font-weight: bold;
+    padding: 0.5rem 1.5rem;
+    border-radius: 10px;
+    border: none;
+    transition: 0.3s;
+}
+.stButton>button:hover {
+    background-color: #ff8c94;
+    transform: scale(1.05);
+}
 
-    # Rotating tips text
-    tips = [
-        "🧠 Fun fact: Your brain loves shortcuts — that’s why fake news spreads faster than truth.",
-        "🔍 Critical thinking is literally a superpower.",
-        "📱 People share headlines they *feel*, not headlines they *check*.",
-        "🤳 70% of users don’t read full articles before sharing. Oops.",
-        "🎯 Misinformation targets emotions, not logic."
-    ]
+/* Inputs */
+.stTextInput > div, .stSelectbox > div {
+    background-color: rgba(60,60,75,0.9);
+    border-radius: 10px;
+    padding: 0.5rem;
+    color: #ffffff;
+}
+input::placeholder {
+    color: #e0e0e0;
+}
 
-    tip_index = int(time.time()) % len(tips)
-    st.write(f"**💡 Tip:** {tips[tip_index]}")
+/* Make ONLY gender radio option text white */
+div[role="radiogroup"] label, 
+div[role="radiogroup"] span, 
+div[role="radiogroup"] div {
+    color: #ffffff !important;
+}
 
-    # ----------------- HOW TO USE (TRANSLUCENT BOX) -----------------
-    st.markdown('<div class="translucent-box">', unsafe_allow_html=True)
+/* Ensure other labels stay white */
+label {
+    color: #ffffff !important;
+}
 
-    st.markdown(
-        """
-        ### 🛠️ How to Use  
-        1️⃣ Go to the **Fake News Detector** screen using the menu on the left.  
-        2️⃣ Enter the headline you want to verify.  
-        3️⃣ Select **gender** and **platform**.  
-        4️⃣ Hit **Analyze News** — instant insights appear magically ✨  
-        """
-    )
+/* Tips box styling */
+.tips-box {
+    background-color: rgba(70,70,90,0.9);
+    padding: 1rem;
+    border-radius: 10px;
+    margin-top: 1rem;
+    border-left: 5px solid #a18cd1;
+}
 
-    st.markdown("</div>", unsafe_allow_html=True)
+/* FAQ box styling */
+.faq-box {
+    background-color: rgba(70,70,90,0.9);
+    padding: 1rem;
+    border-radius: 10px;
+    margin-top: 1rem;
+    border-left: 5px solid #ff8c94;
+}
+</style>
+""", unsafe_allow_html=True)
 
+# ---------- SESSION STATE ----------
+if "history" not in st.session_state:
+    st.session_state.history = []
 
+if "current_page" not in st.session_state:
+    st.session_state.current_page = "Home"
 
-# =====================================================
-# ================== SECOND SCREEN ====================
-# ========= (UNCHANGED EXACTLY AS YOU SAID) ===========
-# =====================================================
-elif page == "Fake News Detector":
-    st.title("📰 Fake News Detector")
+# ---------- SIDEBAR NAVIGATION ----------
+st.sidebar.title("Navigation")
+st.session_state.current_page = st.sidebar.selectbox(
+    "Go to:", ["Home", "Analyze Headline", "History & Insights"],
+    index=["Home", "Analyze Headline", "History & Insights"].index(st.session_state.current_page)
+)
 
-    # Input headline
-    headline = st.text_input("Enter the news headline:")
+# ---------- ROTATING TIPS ----------
+tips_list = [
+    "💡 Did you know? Over 50% of news shared on social media is never actually read.",
+    "📌 Tip: Check multiple sources before trusting a news headline.",
+    "⚠️ Beware: Sensational headlines are more likely to be fake.",
+    "📰 Fact: Images and videos can be manipulated to spread misinformation.",
+    "🔍 Always verify the publication date and source of the news."
+]
+current_tip = random.choice(tips_list)
 
-    # Gender selection (WHITE TEXT)
-    gender = st.radio("Select your gender:", ["Male", "Female", "Other"])
+# ---------- FAQ QUESTIONS ----------
+faq = {
+    "What is TruthLensAI?": "TruthLensAI analyzes headlines to detect potential fake news.",
+    "How do I use the app?": "Enter a headline, select gender & platform, click Analyze News.",
+    "Any tips for spotting fake news?": "Check multiple sources, verify images, and watch for sensational language.",
+    "Can I see previous headlines?": "Yes! Navigate to the 'History & Insights' page to see past analyses.",
+    "Why is gender and platform asked?": "These inputs help show patterns and insights in how news spreads across demographics."
+}
 
-    # Platform selection
-    platform = st.selectbox("Select the platform where the news was found:",
-                            ["Instagram", "YouTube", "Facebook", "X / Twitter", "WhatsApp"])
+# ---------- HOME PAGE ----------
+if st.session_state.current_page == "Home":
+    st.markdown("<h1>TruthLensAI</h1>", unsafe_allow_html=True)
+    st.markdown("<h3>Detect fake news and explore insights!</h3>", unsafe_allow_html=True)
+    
+    # Button to jump to Analyze Headline page at top
+    if st.button("Go to Analyze Headline"):
+        st.session_state.current_page = "Analyze Headline"
+    
+    st.markdown("---")
+    
+    # Description
+    st.markdown("""
+    Welcome to **TruthLensAI**!  
+    This app allows you to:
+    - Enter a news headline
+    - Analyze it for possible fake news indicators
+    - See platform and gender-specific patterns
+    - Keep track of analyzed headlines
+    """)
+    
+    # Tips box
+    st.markdown(f'<div class="tips-box">{current_tip}</div>', unsafe_allow_html=True)
+    
+    # How to use section
+    st.markdown("### How to Use")
+    st.markdown("""
+    1. Navigate to **Analyze Headline** page or click the button above.  
+    2. Enter the news headline in the input box.  
+    3. Select your gender.  
+    4. Select the platform where you found the news (Instagram, YouTube, Facebook, Twitter).  
+    5. Click **Analyze News** to see insights.  
+    6. Check **History & Insights** page to view previously analyzed headlines.
+    """)
+    
+    # FAQ section (clickable questions)
+    st.markdown("### Frequently Asked Questions")
+    question_list = ["Select a question"] + list(faq.keys())
+    selected_question = st.selectbox("Click a question to get the answer:", question_list)
+    if selected_question != "Select a question":
+        st.markdown(f'<div class="faq-box">{faq[selected_question]}</div>', unsafe_allow_html=True)
 
-    # Analyze button
-    if st.button("Analyze News"):
-        if headline.strip() == "":
-            st.error("Please enter a headline before analyzing!")
-        else:
-            st.success("Processing your headline... 🔍")
-            time.sleep(1.5)
-            st.info(f"Gender: **{gender}** | Platform: **{platform}**")
-            st.success("Fake/Real analysis coming soon…")
+# ---------- ANALYZE HEADLINE PAGE ----------
+elif st.session_state.current_page == "Analyze Headline":
+    with st.container():
+        st.markdown('<div class="card">', unsafe_allow_html=True)
+        
+        # Title & Subtitle
+        st.markdown("<h1>TruthLensAI</h1>", unsafe_allow_html=True)
+        st.markdown("<h3>Detect fake news and explore insights</h3>", unsafe_allow_html=True)
+        
+        st.write("---")
+        
+        # Headline input
+        headline = st.text_input("Enter the news headline here:")
+        
+        # Gender input (options in white)
+        gender = st.radio("Select your gender:", ["Male", "Female", "Other"])
+        
+        # Platform input
+        platform = st.selectbox("Select the platform where you found the news:", 
+                                ["Instagram", "YouTube", "Facebook", "Twitter"])
+        
+        st.write("---")
+        
+        # Date
+        st.markdown(f"**Date:** {datetime.today().strftime('%d %B %Y')}")
+        
+        # Analyze button
+        if st.button("Analyze News"):
+            st.success(f"Analyzing headline: **{headline}**\n\nFrom platform: **{platform}** for **{gender}** user... 🔍")
+            # Store in history
+            st.session_state.history.append({
+                "headline": headline,
+                "gender": gender,
+                "platform": platform,
+                "date": datetime.today().strftime("%d %B %Y")
+            })
+        
+        st.markdown('</div>', unsafe_allow_html=True)
 
-
+# ---------- HISTORY & INSIGHTS PAGE ----------
+elif st.session_state.current_page == "History & Insights":
+    st.header("Analysis History")
+    if st.session_state.history:
+        for i, record in enumerate(st.session_state.history, start=1):
+            st.markdown(f"**{i}. {record['headline']}**")
+            st.markdown(f"Platform: {record['platform']} | Gender: {record['gender']} | Date: {record['date']}")
+            st.markdown("---")
+    else:
+        st.info("No headlines analyzed yet!")
