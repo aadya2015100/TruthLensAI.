@@ -99,6 +99,15 @@ label {
     margin-top: 1rem;
     border-left: 5px solid #ff8c94;
 }
+
+/* NEW: Translucent white box for HOW TO USE */
+.white-box {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 1.2rem;
+    border-radius: 12px;
+    margin-top: 1rem;
+    backdrop-filter: blur(5px);
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -137,10 +146,10 @@ faq = {
 
 # ---------- HOME PAGE ----------
 if st.session_state.current_page == "Home":
-    st.markdown("<h1>TruthLensAI</h1>", unsafe_allow_html=True)
 
-    # ⭐ LOGO ADDED ⭐
-    st.image("logo.png.png", width=140)
+    # ⭐ LOGO BEFORE HEADING (smaller) ⭐
+    st.image("logo.png.png", width=90)
+    st.markdown("<h1>TruthLensAI</h1>", unsafe_allow_html=True)
 
     st.markdown("<h3>Detect fake news and explore insights!</h3>", unsafe_allow_html=True)
     
@@ -157,32 +166,39 @@ if st.session_state.current_page == "Home":
     - See platform and gender-specific patterns  
     - Keep track of analyzed headlines  
     """)
-    
+
     st.markdown(f'<div class="tips-box">{current_tip}</div>', unsafe_allow_html=True)
-    
-    st.markdown("### How to Use")
+
+    # ⭐ HOW TO USE — TRANSLUCENT WHITE BOX ⭐
     st.markdown("""
-    1. Navigate to **Analyze Headline** page or click the button above.  
-    2. Enter the news headline.  
-    3. Select your gender & platform.  
-    4. Click **Analyze News**.  
-    5. View past analyses in **History & Insights**.  
-    """)
-    
+    <div class="white-box">
+        <h3>How to Use</h3>
+        <p>
+        1. Navigate to <b>Analyze Headline</b> page or click the button above.<br>
+        2. Enter the news headline.<br>
+        3. Select your gender & platform.<br>
+        4. Click <b>Analyze News</b>.<br>
+        5. View past analyses in <b>History & Insights</b>.<br>
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
     st.markdown("### Frequently Asked Questions")
     question_list = ["Select a question"] + list(faq.keys())
     selected_question = st.selectbox("Click a question to get the answer:", question_list)
+
     if selected_question != "Select a question":
         st.markdown(f'<div class="faq-box">{faq[selected_question]}</div>', unsafe_allow_html=True)
+
 
 # ---------- ANALYZE HEADLINE PAGE ----------
 elif st.session_state.current_page == "Analyze Headline":
     with st.container():
         st.markdown('<div class="card">', unsafe_allow_html=True)
 
-        # ⭐ LOGO ADDED ⭐
-        st.image("logo.png.png", width=140)
-        
+        # ⭐ LOGO BEFORE HEADING (smaller) ⭐
+        st.image("logo.png.png", width=90)
+
         st.markdown("<h1>TruthLensAI</h1>", unsafe_allow_html=True)
         st.markdown("<h3>Detect fake news and explore insights</h3>", unsafe_allow_html=True)
         
@@ -218,4 +234,3 @@ elif st.session_state.current_page == "History & Insights":
             st.markdown("---")
     else:
         st.info("No headlines analyzed yet!")
-
