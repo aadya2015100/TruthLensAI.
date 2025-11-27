@@ -133,15 +133,12 @@ with st.container():
 
     # ---------- GENDER INPUT ----------
     gender = st.radio("Select your gender:", ["Male", "Female", "Other"])
-    <style>
-/* Make only the gender radio labels white */
-div[role="radiogroup"] label {
+  /* Make ONLY the gender radio option text white */
+div[role="radiogroup"] > label, 
+div[role="radiogroup"] > div, 
+div[role="radiogroup"] span {
     color: #ffffff !important;
 }
-div[role="radiogroup"] div {
-    color: #ffffff !important;
-}
-</style>
 
 
     # ---------- PLATFORM INPUT ----------
