@@ -70,9 +70,9 @@ input::placeholder {
 }
 
 /* Make ONLY gender radio option text white */
-div[role="radiogroup"] > label, 
-div[role="radiogroup"] > div, 
-div[role="radiogroup"] span {
+div[role="radiogroup"] label, 
+div[role="radiogroup"] span, 
+div[role="radiogroup"] div {
     color: #ffffff !important;
 }
 
@@ -126,7 +126,7 @@ elif st.session_state.current_page == "Analyze Headline":
         # Headline input
         headline = st.text_input("Enter the news headline here:")
         
-        # Gender input
+        # Gender input (options in white)
         gender = st.radio("Select your gender:", ["Male", "Female", "Other"])
         
         # Platform input
