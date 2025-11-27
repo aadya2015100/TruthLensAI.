@@ -65,7 +65,7 @@ h2, h3 {
     color: #ffffff;
 }
 
-/* Make the gender radio options white only */
+/* Make the gender radio options white */
 div[role="radiogroup"] label {
     color: #ffffff !important;
 }
@@ -82,7 +82,7 @@ div[role="radiogroup"] div {
     border: 1px solid rgba(255,255,255,0.3);
 }
 
-/* 🔥 Translucent white box */
+/* Translucent white box */
 .translucent-box {
     background: rgba(255, 255, 255, 0.18);
     backdrop-filter: blur(10px);
@@ -97,7 +97,6 @@ div[role="radiogroup"] div {
 </style>
 """, unsafe_allow_html=True)
 
-
 # ---------------------- FAQ DATA ----------------------
 faq = {
     "What is TruthLensAI?": "TruthLensAI analyzes headlines to detect potential fake news.",
@@ -106,10 +105,8 @@ faq = {
     "Why ask gender & platform?": "To analyze how misinformation spreads differently across groups."
 }
 
-
 # ---------------------- NAVIGATION ----------------------
 page = st.sidebar.radio("Navigate", ["Home", "Fake News Detector"])
-
 
 # ---------------------- HOME PAGE ----------------------
 if page == "Home":
@@ -121,8 +118,15 @@ if page == "Home":
 
     st.write("---")
 
-    # 🔥🔥 HOW TO USE IN TRANSLUCENT BOX 🔥🔥
+    # 🔥 HOW TO USE (TRANSLUCENT BOX) 🔥
     st.markdown("""
     <div class="translucent-box">
         <h3>How to Use</h3>
-        <p>1️⃣ Go to the Fake News Detector screen using the menu on
+        <p>1️⃣ Go to the Fake News Detector screen using the menu on the left.<br>
+        2️⃣ Enter the headline you want to verify.<br>
+        3️⃣ Select gender & platform.<br>
+        4️⃣ Hit 'Analyze News' — instant insights.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    s
