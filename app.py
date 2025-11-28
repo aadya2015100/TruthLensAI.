@@ -213,14 +213,42 @@ elif st.session_state.current_page == "Analyze Headline":
         st.markdown(f"**Date:** {datetime.today().strftime('%d %B %Y')}")
         
         if st.button("Analyze News"):
+
             st.success(f"Analyzing headline: **{headline}**\n\nPlatform: **{platform}** | Gender: **{gender}** 🔍")
+
+            # -----------------------------------
+            # 📚 HEADLINE COMPLEXITY SCORE ADDED
+            # -----------------------------------
+            words = headline.split()
+            length_score = min(len(words) * 5, 100)
+
+            punctuation_score = 0
+            for p in ["!", "?", ".", ",", "-", "'"]:
+                punctuation_score += headline.count(p) * 2
+            punctuation_score = min(punctuation_score, 20)
+
+            complexity = min(length_score + punctuation_score, 100)
+
+            st.write("### 🧠 Headline Complexity Score")
+            st.progress(complexity)
+            st.write(f"**Complexity Level:** {complexity}/100")
+
+            if complexity < 30:
+                st.info("This headline is very simple — could be clickbait or oversimplified.")
+            elif complexity < 60:
+                st.info("Moderate complexity — fairly normal headline structure.")
+            else:
+                st.info("High complexity — usually seen in detailed or formal news.")
+
+            # store
             st.session_state.history.append({
                 "headline": headline,
                 "gender": gender,
                 "platform": platform,
-                "date": datetime.today().strftime("%d %B %Y")
+                "date": datetime.today().strftime("%d %B %Y"),
+                "complexity": complexity
             })
-        
+
         st.markdown('</div>', unsafe_allow_html=True)
 
 # ---------- HISTORY PAGE ----------
@@ -231,7 +259,8 @@ elif st.session_state.current_page == "History & Insights":
         for i, record in enumerate(st.session_state.history, start=1):
             st.markdown(f"**{i}. {record['headline']}**")
             st.markdown(f"Platform: {record['platform']} | Gender: {record['gender']} | Date: {record['date']}")
+            if "complexity" in record:
+                st.markdown(f"Complexity Score: **{record['complexity']}** / 100")
             st.markdown("---")
     else:
         st.info("No headlines analyzed yet!")
-
