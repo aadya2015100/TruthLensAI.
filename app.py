@@ -75,18 +75,14 @@ h3 {
     padding: 0.5rem;
     color: #ffffff;
 }
-
-/* PLACEHOLDER COLOR */
 input::placeholder {
     color: #e0e0e0;
 }
-
-/* LABELS */
 label {
     color: #ffffff !important;
 }
 
-/* MAKE RADIO BUTTON OPTIONS WHITE */
+/* RADIO BUTTON TEXT WHITE FIX */
 .stRadio label {
     color: white !important;
 }
@@ -232,7 +228,7 @@ elif st.session_state.current_page == "Analyze Headline":
             st.progress(complexity / 100)
 
         gender = st.radio("Select your gender:", ["Male", "Female", "Other"])
-        platform = st.selectbox("Where did you see this news?", ["Instagram", "YouTube", "Facebook", "X", "Other"])
+        platform = st.selectbox("Where did you see this news?", ["Instagram", "YouTube", "Facebook", "Twitter"])
 
         st.write("---")
         st.markdown(f"**Date:** {datetime.today().strftime('%d %B %Y')}")
@@ -274,3 +270,8 @@ elif st.session_state.current_page == "History & Insights":
 
     if st.session_state.history:
         for i, r in enumerate(st.session_state.history, 1):
+            st.markdown(f"**{i}. {r['headline']}**")
+            st.markdown(f"Platform: {r['platform']} | Gender: {r['gender']} | Date: {r['date']}")
+            st.markdown("---")
+    else:
+        st.info("No headlines analyzed yet!")
