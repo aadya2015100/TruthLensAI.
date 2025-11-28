@@ -104,6 +104,12 @@ label {
     margin-top: 1rem;
     backdrop-filter: blur(5px);
 }
+.feedback-box {
+    background-color: rgba(100,100,120,0.85);
+    padding: 1rem;
+    border-radius: 10px;
+    margin-top: 1rem;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -142,7 +148,6 @@ faq = {
 
 # ---------- HOME PAGE ----------
 if st.session_state.current_page == "Home":
-    # ⭐ LOGO & HEADING BESIDE EACH OTHER ⭐
     st.markdown("""
     <div class="title-row">
         <img src="logo.png.png" width="70">
@@ -150,7 +155,7 @@ if st.session_state.current_page == "Home":
     </div>
     """, unsafe_allow_html=True)
     st.markdown("<h3>Detect fake news and explore insights!</h3>", unsafe_allow_html=True)
-    
+
     if st.button("Go to Analyze Headline"):
         st.session_state.current_page = "Analyze Headline"
 
@@ -164,7 +169,6 @@ if st.session_state.current_page == "Home":
     """)
     st.markdown(f'<div class="tips-box">{current_tip}</div>', unsafe_allow_html=True)
 
-    # ⭐ HOW TO USE — TRANSLUCENT BOX ⭐
     st.markdown("""
     <div class="white-box">
         <h3>How to Use</h3>
@@ -189,7 +193,6 @@ elif st.session_state.current_page == "Analyze Headline":
     with st.container():
         st.markdown('<div class="card">', unsafe_allow_html=True)
         
-        # ⭐ LOGO + HEADING SIDE BY SIDE ⭐
         st.markdown("""
         <div class="title-row">
             <img src="logo.png.png" width="70">
@@ -201,7 +204,7 @@ elif st.session_state.current_page == "Analyze Headline":
 
         headline = st.text_input("Enter the news headline here:")
 
-        # --- COMPLEXITY SCORE BASED ON WORD COUNT ---
+        # --- COMPLEXITY SCORE ---
         if headline:
             word_count = len(headline.split())
             if word_count <= 5:
@@ -213,7 +216,6 @@ elif st.session_state.current_page == "Analyze Headline":
             else:
                 complexity = 90
                 complexity_label = "High"
-
             st.markdown(f"**Complexity Score:** {complexity_label} ({word_count} words)")
             st.progress(complexity / 100)
 
@@ -230,6 +232,14 @@ elif st.session_state.current_page == "Analyze Headline":
                 "platform": platform,
                 "date": datetime.today().strftime("%d %B %Y")
             })
+
+            # --- FEEDBACK SECTION ---
+            st.markdown('<div class="feedback-box">', unsafe_allow_html=True)
+            st.markdown("### Feedback")
+            feedback = st.text_area("Your thoughts about this analysis:")
+            if st.button("Submit Feedback"):
+                st.success("Thanks for your feedback! ❤️")
+            st.markdown('</div>', unsafe_allow_html=True)
 
         st.markdown('</div>', unsafe_allow_html=True)
 
