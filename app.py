@@ -180,9 +180,9 @@ with title_col:
         st.markdown(f'<div class="faq-box">{faq[selected_question]}</div>', unsafe_allow_html=True)
 
 # ---------- ANALYZE HEADLINE ----------
-elif st.session_state.current_page == "Analyze Headline":
-  with st.container():
-        st.markdown('<div class="card">', unsafe_allow_html=True)
+    elif st.session_state.current_page == "Analyze Headline":
+        with st.container():
+            st.markdown('<div class="card">', unsafe_allow_html=True)
 
         # ⭐ LOGO + TITLE SIDE BY SIDE ⭐
         st.markdown(
