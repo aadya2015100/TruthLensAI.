@@ -144,10 +144,9 @@ faq = {
 }
 
 # ---------- HOME PAGE ----------
-if st.session_state.current_page == "Home":
-    
+if st.session_state.current_page == "Home":\
     # LOGO + HEADING SIDE BY SIDE
-logo_col, title_col = st.columns([1, 6])
+    logo_col, title_col = st.columns([1, 6])
 
 with logo_col:
     st.image("logo.png", width=55)
