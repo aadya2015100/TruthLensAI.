@@ -5,7 +5,7 @@ import pickle
 
 # ---------- LOAD MODEL ----------
 try:
-    with open("news_model.pkl", "rb") as f:
+    with open("truthlensai.pkl", "rb") as f:
         vectorizer, model = pickle.load(f)
 except Exception as e:
     st.error(f"Failed to load model: {e}")
